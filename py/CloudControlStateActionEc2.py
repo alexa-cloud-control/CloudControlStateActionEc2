@@ -1,4 +1,4 @@
-import logging
+""" Lambda function - start/stop/reboot ec2 """
 import boto3
 
 def CloudControlStateActionEc2(event, context):
@@ -21,7 +21,7 @@ def CloudControlStateActionEc2(event, context):
             instance_list.append(instance['InstanceId'])
     if not instance_list:
         msg = "I cannot find the instance with name {}.".format(event["body"]["InstanceName"])
-        return 1, {"msg": msg}
+        return {"msg": msg}
     # I should fix it somehow...
     if event["body"]["InstanceState"] == 'start':
         ec2_action = ec2.instances.filter(InstanceIds=instance_list).start()
@@ -31,16 +31,18 @@ def CloudControlStateActionEc2(event, context):
         ec2_action = ec2.instances.filter(InstanceIds=instance_list).stop()
     elif event["body"]["InstanceState"] == 'hibernate':
         msg = "Hibernate is not working now. I am sorry."
-        return 0, {"msg": msg}
+        return {"msg": msg}
     else:
         msg = "I do not know what to do, you use weird action to perform."
-        return 0, {"msg": msg}
+        return {"msg": msg}
     msg = (
         "{} against instance {} performed. "
         "Check the state of the instance shortly, in order to control, "
         "if {} action is successful.".format(
-            event["body"]["InstanceState"], event["body"]["InstanceName"], event["body"]["InstanceState"]
+            event["body"]["InstanceState"], 
+            event["body"]["InstanceName"], 
+            event["body"]["InstanceState"]
         )
     )
-    
-    return 0, {"msg": msg}
+
+    return {"msg": msg}
