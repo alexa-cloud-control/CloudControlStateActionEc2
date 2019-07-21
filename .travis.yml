@@ -4,10 +4,11 @@ language: bash
 
 stages:
   - name: Python test
-    if: branch != master
-  - name: Push function
     if: branch = master
-
+# - name: Python test
+#     if: branch != master
+#   - name: Push function
+#     if: branch = master
 services:
   - docker
 
