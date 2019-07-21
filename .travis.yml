@@ -30,4 +30,4 @@ jobs:
     - stage: Push artifact
       script:
         - zip CloudControlStateActionEc2.zip py/CloudControlStateActionEc2.py
-        - aws s3 cp CloudControlStateActionEc2 s3://${TRAVIS_REPO_SLUG}/${TRAVIS_COMMIT}/$(date +%s)-$(date '+%Y-%m-%d-%H:%M:%S')-CloudControlStateActionEc2.zip
+        - aws s3 cp CloudControlStateActionEc2 s3://pawel-alexa-cloud-control/${TRAVIS_REPO_SLUG}/${TRAVIS_COMMIT}/$(date +%s)-$(date '+%Y-%m-%d-%H:%M:%S')-CloudControlStateActionEc2.zip
