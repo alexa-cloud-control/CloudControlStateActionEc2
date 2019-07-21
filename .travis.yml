@@ -30,6 +30,5 @@ jobs:
     - stage: Push artifact
       script:
         - ls -l
-        - zip CloudControlStateActionEc2.zip py/CloudControlStateActionEc2.py
     
         
