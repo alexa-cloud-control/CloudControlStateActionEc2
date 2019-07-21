@@ -27,6 +27,7 @@ jobs:
         - mkdir /tmp/config-custom
         - docker pull almerhor/pylint:default
         - docker run --rm -v $(pwd):/pylint -v $(pwd)/test:/tmp/config-custom almerhor/pylint:default py/CloudControlStateActionEc2.py requirements-custom.txt
+    
     - stage: Push artifact
       script:
         - ls -l
