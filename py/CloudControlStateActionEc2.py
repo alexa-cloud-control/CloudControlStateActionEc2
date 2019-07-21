@@ -39,8 +39,8 @@ def CloudControlStateActionEc2(event, context):
         "{} against instance {} performed. "
         "Check the state of the instance shortly, in order to control, "
         "if {} action is successful.".format(
-            event["body"]["InstanceState"], 
-            event["body"]["InstanceName"], 
+            event["body"]["InstanceState"],
+            event["body"]["InstanceName"],
             event["body"]["InstanceState"]
         )
     )
