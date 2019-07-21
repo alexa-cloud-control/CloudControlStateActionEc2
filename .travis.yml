@@ -30,4 +30,4 @@ jobs:
     - stage: Push artifact
       script:
         - zip CloudControlStateActionEc2.zip py/CloudControlStateActionEc2.py
-        #- aws s3 cp CloudControlStateActionEc2.zip s3://pawel-alexa-cloud-control/CloudControlStateActionEc2.zip
+        
