@@ -24,5 +24,5 @@ jobs:
       script:
         - echo "Check for commit ${TRAVIS_COMMIT} and tag ${TRAVIS_TAG} from branch ${TRAVIS_BRANCH}."
         - echo "This is build number ${TRAVIS_BUILD_NUMBER}, for ${TRAVIS_REPO_SLUG}."
-        - docker pull almerhor/pylint
-        - docker run --rm -v $(pwd):/pylint -v $(pwd)/test:/tmp/test pylint py/CloudControlStateActionEc2.py /tmp/test/requirements-custom.txt
+        - docker pull almerhor/pylint:default
+        - docker run --rm -v $(pwd):/pylint -v $(pwd)/test:/tmp/test almerhor/pylint py/CloudControlStateActionEc2.py /tmp/test/requirements-custom.txt
