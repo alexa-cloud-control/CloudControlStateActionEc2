@@ -7,8 +7,8 @@ stages:
     if: branch = master
 # - name: Python test
 #     if: branch != master
-   - name: Push artifact
-     if: branch = master
+#  - name: Push artifact
+#     if: branch = master
 services:
   - docker
 
