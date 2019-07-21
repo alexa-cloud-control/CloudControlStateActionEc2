@@ -7,8 +7,8 @@ stages:
     if: branch = master
 # - name: Python test
 #     if: branch != master
-#   - name: Push function
-#     if: branch = master
+   - name: Push artifact
+     if: branch = master
 services:
   - docker
 
@@ -27,3 +27,7 @@ jobs:
         - mkdir /tmp/config-custom
         - docker pull almerhor/pylint:default
         - docker run --rm -v $(pwd):/pylint -v $(pwd)/test:/tmp/config-custom almerhor/pylint:default py/CloudControlStateActionEc2.py requirements-custom.txt
+    - stage: Push artifact
+      script:
+        - zip CloudControlStateActionEc2.zip py/CloudControlStateActionEc2.py
+        - aws s3 cp CloudControlStateActionEc2 s3://${TRAVIS_REPO_SLUG}/${TRAVIS_COMMIT}/$(date +%s)-$(date '+%Y-%m-%d-%H:%M:%S')-CloudControlStateActionEc2.zip
