@@ -1,0 +1,26 @@
+sudo: required
+dist: trusty
+language: bash
+
+stages:
+  - name: Python test
+    if: branch != master
+  - name: Push function
+    if: branch = master
+
+services:
+  - docker
+
+install:
+  - sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse"
+  - sudo apt-get -qq update
+  - sudo apt-get -t trusty-backports install shellcheck
+  - sudo pip install awscli
+
+jobs:
+  include:
+    - stage: Python test
+    - echo "Check for commit ${TRAVIS_COMMIT} and tag ${TRAVIS_TAG} from branch ${TRAVIS_BRANCH}."
+    - echo "This is build number ${TRAVIS_BUILD_NUMBER}, for ${TRAVIS_REPO_SLUG}."
+    - docker pull almerhor/pylint
+    - docker run --rm -v $(pwd):/pylint -v $(pwd)/test:/tmp/test pylint py/CloudControlStateActionEc2.py /tmp/test/requirements-custom.txt
