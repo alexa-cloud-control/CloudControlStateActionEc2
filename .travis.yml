@@ -4,9 +4,6 @@ language: bash
 
 stages:
   - name: Python test
-    if: branch = master
-# - name: Python test
-#     if: branch != master
   - name: Copy artifact
     if: branch = master
 services:
