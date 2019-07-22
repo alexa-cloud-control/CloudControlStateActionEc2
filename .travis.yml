@@ -10,6 +10,9 @@ stages:
 services:
   - docker
 
+env:
+  - TF_INPUT=false # No interraction
+
 install:
   - sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse"
   - sudo apt-get -qq update
@@ -23,8 +26,6 @@ install:
 jobs:
   include:
     -stage: Terraform test
-      env:
-        - TF_INPUT=false # No interraction
       script:
         - sed -i -e "s/BUCKETNAME/$terraform_bucket/g" provision/terraform.tf_template
         - sed -i -e "s/TABLENAME/$terraform_table/g" provision/terraform.tf_template
