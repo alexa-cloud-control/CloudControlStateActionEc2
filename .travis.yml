@@ -3,6 +3,7 @@ dist: trusty
 language: bash
 
 stages:
+  - name: Terraform test
   - name: Python test
   - name: Copy artifact
     if: branch = master
@@ -13,10 +14,25 @@ install:
   - sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse"
   - sudo apt-get -qq update
   - sudo apt-get -t trusty-backports install shellcheck
-  - sudo pip install awscli
+  - sudo pip install awscli  
+  - curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.12.5/terraform_0.12.5_linux_amd64.zip
+  - unzip /tmp/terraform.zip -d /tmp
+  - mv /tmp/terraform ~/bin
+  - export PATH="~/bin:$PATH"
 
 jobs:
   include:
+    -stage: Terraform test
+      env:
+        - TF_INPUT=false # No interraction
+      script:
+        - sed -i -e "s/BUCKETNAME/$terraform_bucket/g" provision/terraform.tf_template
+        - sed -i -e "s/TABLENAME/$terraform_table/g" provision/terraform.tf_template
+        - sed -i -e "s/REGION/$terraform_region/g" provision/terraform.tf_template
+        - mv provision/terraform.tf_template provision/terraform.tf
+        - terraform init
+        - terraform validate
+
     - stage: Python test
       script:
         - echo "Check for commit ${TRAVIS_COMMIT} and tag ${TRAVIS_TAG} from branch ${TRAVIS_BRANCH}."

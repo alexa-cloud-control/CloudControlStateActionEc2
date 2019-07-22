@@ -1,0 +1,4 @@
+region = "<REGION>"
+bucket_name = "<BUCKETNAME>"
+table_name = "<TABLENAME>"
+environment = "<ENVIRONMENT>"
