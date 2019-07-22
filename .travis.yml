@@ -35,6 +35,7 @@ jobs:
         - sed -i -e "s/BUCKETNAME/$terraform_bucket/g" provision/terraform.tfvars_template
         - sed -i -e "s/ENVIRONMENT/$terraform_environment/g" provision/terraform.tfvars_template
         - mv provision/terraform.tfvars_template provision/terraform.tfvars
+        - cd provision
         - terraform init
         - terraform validate
 
