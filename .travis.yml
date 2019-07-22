@@ -30,6 +30,11 @@ jobs:
         - sed -i -e "s/TABLENAME/$terraform_table/g" provision/terraform.tf_template
         - sed -i -e "s/REGION/$terraform_region/g" provision/terraform.tf_template
         - mv provision/terraform.tf_template provision/terraform.tf
+        - sed -i -e "s/REGION/$terraform_region/g" provision/terraform.tfvars_template
+        - sed -i -e "s/TABLENAME/$terraform_table/g" provision/terraform.tfvars_template
+        - sed -i -e "s/BUCKETNAME/$terraform_bucket/g" provision/terraform.tfvars_template
+        - sed -i -e "s/ENVIRONMENT/$terraform_environment/g" provision/terraform.tfvars_template
+        - mv provision/terraform.tfvars_template provision/terraform.tfvars
         - terraform init
         - terraform validate
 
