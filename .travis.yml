@@ -3,7 +3,7 @@ dist: trusty
 language: bash
 
 stages:
-  - name: Terraform test
+  - name: Terraform run
   - name: Python test
   - name: Copy artifact
     if: branch = master
@@ -22,7 +22,7 @@ install:
 
 jobs:
   include:
-    - stage: Terraform test
+    - stage: Terraform run
       env:
         - TF_INPUT=false # No interraction
       script:
@@ -38,9 +38,7 @@ jobs:
         - cd provision
         - terraform init
         - terraform validate
-        - terraform plan -detailedexitcode && if_apply=$?
-        - env: global IFAPPLY=${if_apply}
-        - if [${IFAPPLY} == 2] then; echo "dont do"; else; echo "do"; fi
+        - ./execute.sh
 
     - stage: Python test
       script:
