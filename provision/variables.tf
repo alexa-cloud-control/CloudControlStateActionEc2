@@ -3,11 +3,6 @@ variable "region" {
   description = "Default region"
 }
 
-variable "use_profile" {
-  type        = "string"
-  description = "Used profile for IAM"
-}
-
 variable "state_bucket_name" {
   type        = "string"
   description = "Name of the S3 bucket, where state files will be stored"
