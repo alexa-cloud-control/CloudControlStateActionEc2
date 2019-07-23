@@ -5,6 +5,5 @@ terraform {
     key            = "terraformstates/CloudControlStateActionEc2.tfstate"
     dynamodb_table = "TABLENAME"
     region         = "REGION"
-    profile        = "default"
   }
 }
