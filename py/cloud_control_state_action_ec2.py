@@ -1,7 +1,7 @@
 """ Lambda function - start/stop/reboot ec2 """
 import boto3
 
-def CloudControlStateActionEc2(event, context):
+def cloud_control_state_action_ec2(event, context):
     """ Lambda function - start/stop/reboot ec2 """
 
     # validate instance name
