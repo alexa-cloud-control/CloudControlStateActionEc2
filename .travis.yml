@@ -38,6 +38,9 @@ jobs:
         - cd provision
         - terraform init
         - terraform validate
+        - terraform plan -detailedexitcode && if_apply=$?
+        - env: global IFAPPLY=${if_apply}
+        - if [${IFAPPLY} == 2] then; echo "dont do"; else; echo "do"; fi
 
     - stage: Python test
       script:
