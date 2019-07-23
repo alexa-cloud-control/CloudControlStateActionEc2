@@ -19,30 +19,42 @@ def CloudControlStateActionEc2(event, context):
     for reservation in response['Reservations']:
         for instance in reservation['Instances']:
             instance_list.append(instance['InstanceId'])
+
     if not instance_list:
         msg = "I cannot find the instance with name {}.".format(event["body"]["InstanceName"])
         return {"msg": msg}
+
     # I should fix it somehow...
-    if event["body"]["InstanceState"] == 'start':
-        ec2_action = ec2.instances.filter(InstanceIds=instance_list).start()
-    elif event["body"]["InstanceState"] == 'reboot' or event["body"]["InstanceState"] == 'restart':
-        ec2_action = ec2.instances.filter(InstanceIds=instance_list).reboot()
-    elif event["body"]["InstanceState"] == 'stop':
-        ec2_action = ec2.instances.filter(InstanceIds=instance_list).stop()
-    elif event["body"]["InstanceState"] == 'hibernate':
-        msg = "Hibernate is not working now. I am sorry."
-        return {"msg": msg}
-    else:
+    ec2_instance = ec2.instances.filter(InstanceIds=instance_list)
+
+    commands = {
+        'start': ['start', 'run'],
+        'stop': ['stop'],
+        'reboot': ['reboot', 'restart']
+    }
+
+    state = event["body"]["InstanceState"]
+
+    if state != 'hibernate' and state not in commands:
         msg = "I do not know what to do, you use weird action to perform."
         return {"msg": msg}
+
+    if state == 'hibernate':
+        msg = "Hibernate is not working now. I am sorry."
+        return {"msg": msg}
+
+    for command_key in commands:
+        aliases = commands[command_key]
+        if state in aliases:
+            # setattr(ec2_instance, command_key)
+            getattr(ec2_instance, command_key).__call__()
+
     msg = (
         "{} against instance {} performed. "
         "Check the state of the instance shortly, in order to control, "
         "if {} action is successful.".format(
-            event["body"]["InstanceState"],
-            event["body"]["InstanceName"],
-            event["body"]["InstanceState"]
+            event["body"]["InstanceState"], event["body"]["InstanceName"], event["body"]["InstanceState"]
         )
     )
-
+    
     return {"msg": msg}
