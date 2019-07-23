@@ -1,4 +1,4 @@
-region = "${terraform_region}"
-bucket_name = "${terraform_bucket}"
-table_name = "${terraform_table}"
-environment = "${terraform_environment}"
+region = "REGION"
+bucket_name = "BUCKETNAME"
+table_name = "TABLENAME"
+environment = "ENVIRONMENT"
