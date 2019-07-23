@@ -1,7 +1,7 @@
 #! /bin/bash
 
 echo "Execute plan to find out if there are changes"
-terraform plan -detailedexit
+terraform plan -detailed-exitcode
 tfstatus=$?
 
 case $tfstatus in
