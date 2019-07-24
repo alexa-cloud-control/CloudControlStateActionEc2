@@ -9,6 +9,8 @@ stages:
     if: branch = master
 services:
   - docker
+env:
+  - TF_INPUT=false # No interraction
 
 install:
   - sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu trusty-backports main restricted universe multiverse"
@@ -23,8 +25,6 @@ install:
 jobs:
   include:
     - stage: Terraform run
-      env:
-        - TF_INPUT=false # No interraction
       script:
         - cd provision
         - echo "Feeding terraform.tf with variables."
