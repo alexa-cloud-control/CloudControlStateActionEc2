@@ -89,13 +89,14 @@ resource "aws_cloudwatch_log_group" "AlexaCloudControlEc2StateActionLogGroup" {
 }
 
 resource "aws_lambda_function" "AlexaCloudControlEc2StateAction" {
-  function_name = "AlexaCloudControlEc2StateAction"
-  role          = "${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}"
-  filename      = "dummy.py"
-  handler       = "AlexaCloudControlEc2StateAction.cloud_control_state_action_ec2"
-  runtime       = "python3.6"
-  memory_size   = 128
-  timeout       = 3
+  function_name    = "AlexaCloudControlEc2StateAction"
+  role             = "${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}"
+  filename         = "dummy.zip"
+  source_code_hash = "${base64sha256(file("function.zip"))}"
+  handler          = "AlexaCloudControlEc2StateAction.cloud_control_state_action_ec2"
+  runtime          = "python3.6"
+  memory_size      = 128
+  timeout          = 3
 
   tags = {
     Project = "Alexa Cloud Control"
