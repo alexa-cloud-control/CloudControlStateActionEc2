@@ -91,8 +91,9 @@ resource "aws_cloudwatch_log_group" "AlexaCloudControlEc2StateActionLogGroup" {
 resource "aws_lambda_function" "AlexaCloudControlEc2StateAction" {
   function_name    = "AlexaCloudControlEc2StateAction"
   role             = "${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}"
-  filename         = "dummy.zip"
-  source_code_hash = "${filebase64sha256("dummy.zip")}"
+  # Copy dummy file. Cannot create function without code
+  filename         = "AlexaCloudControlEc2StateAction.zip"
+  source_code_hash = "${filebase64sha256("AlexaCloudControlEc2StateAction.zip")}"
   handler          = "AlexaCloudControlEc2StateAction.cloud_control_state_action_ec2"
   runtime          = "python3.6"
   memory_size      = 128
