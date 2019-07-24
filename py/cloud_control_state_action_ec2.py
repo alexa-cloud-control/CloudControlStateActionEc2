@@ -24,7 +24,6 @@ def cloud_control_state_action_ec2(event, context):
         msg = "I cannot find the instance with name {}.".format(event["body"]["InstanceName"])
         return {"msg": msg}
 
-    # I should fix it somehow...
     ec2_instance = ec2.instances.filter(InstanceIds=instance_list)
 
     commands = {
