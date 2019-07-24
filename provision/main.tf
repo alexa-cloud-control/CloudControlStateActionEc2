@@ -92,7 +92,7 @@ resource "aws_lambda_function" "AlexaCloudControlEc2StateAction" {
   function_name    = "AlexaCloudControlEc2StateAction"
   role             = "${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}"
   filename         = "dummy.zip"
-  source_code_hash = "${base64sha256(file("function.zip"))}"
+  source_code_hash = "${filebase64sha256("function.zip")}"
   handler          = "AlexaCloudControlEc2StateAction.cloud_control_state_action_ec2"
   runtime          = "python3.6"
   memory_size      = 128
