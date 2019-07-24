@@ -14,7 +14,7 @@ case $tfstatus in
     ;;
   2)
     echo "Changes found, applying changes."
-    terraform apply
+    terraform apply -auto-approve
     ;;
   *)
     echo "Unknown status, exiting."
