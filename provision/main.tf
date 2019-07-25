@@ -92,7 +92,7 @@ resource "aws_lambda_function" "AlexaCloudControlEc2StateAction" {
   function_name    = "AlexaCloudControlEc2StateAction"
   role             = "${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}"
   description      = "Alexa Cloud Control change EC2 state"
-  s3               = "${artifact_bucket}"
+  s3               = "${var.artifact_bucket}"
   s3_key           = "${TRAVIS_REPO_SLUG}/$(date +%s)-${TRAVIS_COMMIT}-cloud_control_state_action_ec2.zip"
   # Copy dummy file. Cannot create function without code
   # filename         = "AlexaCloudControlEc2StateAction.zip"
