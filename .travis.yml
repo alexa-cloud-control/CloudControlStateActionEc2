@@ -58,7 +58,7 @@ jobs:
         - echo "Feeding main.tf with variables."
         - sed -i -e "s/ACCOUNTNUMBER/${account_number}/g" main.tf
         - sed -i -e "s/ARTIFACTBUCKETNAME/${artifact_bucket}/g" main.tf
-        - sed -i -e "s/TRAVIS_REPO_SLUG/${TRAVIS_REPO_SLUG}/g" main.tf
+        - sed -i -e 's/TRAVIS_REPO_SLUG/${TRAVIS_REPO_SLUG}/g' main.tf
         - sed -i -e "s/TRAVIS_COMMIT/${TRAVIS_COMMIT}/g" main.tf
         - terraform init
         - terraform validate
