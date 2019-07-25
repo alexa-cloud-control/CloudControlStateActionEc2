@@ -24,6 +24,21 @@ install:
 
 jobs:
   include:
+
+    - stage: Python test
+      script:
+        - echo "Check for commit ${TRAVIS_COMMIT} and tag ${TRAVIS_TAG} from branch ${TRAVIS_BRANCH}."
+        - echo "This is build number ${TRAVIS_BUILD_NUMBER}, for ${TRAVIS_REPO_SLUG}."
+        - mkdir /tmp/config-custom
+        - docker pull almerhor/pylint:default
+        - docker run --rm -v $(pwd):/pylint -v $(pwd)/test:/tmp/config-custom almerhor/pylint:default py/cloud_control_state_action_ec2.py requirements-custom.txt
+    
+    - stage: Copy artifact
+      language: python
+      script:
+        - zip cloud_control_state_action_ec2.zip py/cloud_control_state_action_ec2.py
+        - aws s3 cp cloud_control_state_action_ec2.zip s3://${artifact_bucket}/${TRAVIS_REPO_SLUG}/$(date +%s)-${TRAVIS_COMMIT}-cloud_control_state_action_ec2.zip
+
     - stage: Terraform run
       script:
         - cd provision
@@ -45,18 +60,4 @@ jobs:
         - terraform validate
         - ./execute.sh
 
-    - stage: Python test
-      script:
-        - echo "Check for commit ${TRAVIS_COMMIT} and tag ${TRAVIS_TAG} from branch ${TRAVIS_BRANCH}."
-        - echo "This is build number ${TRAVIS_BUILD_NUMBER}, for ${TRAVIS_REPO_SLUG}."
-        - mkdir /tmp/config-custom
-        - docker pull almerhor/pylint:default
-        - docker run --rm -v $(pwd):/pylint -v $(pwd)/test:/tmp/config-custom almerhor/pylint:default py/cloud_control_state_action_ec2.py requirements-custom.txt
-    
-    - stage: Copy artifact
-      language: python
-      script:
-        - zip cloud_control_state_action_ec2.zip py/cloud_control_state_action_ec2.py
-        - aws s3 cp cloud_control_state_action_ec2.zip s3://${artifact_bucket}/${TRAVIS_REPO_SLUG}/$(date +%s)-${TRAVIS_COMMIT}-cloud_control_state_action_ec2.zip
-    
         
