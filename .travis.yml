@@ -3,9 +3,10 @@ dist: trusty
 language: bash
 
 stages:
-  - name: Terraform run
   - name: Python test
   - name: Copy artifact
+    if: branch = master
+  - name: Terraform run
     if: branch = master
 services:
   - docker
