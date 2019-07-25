@@ -57,6 +57,7 @@ jobs:
         - mv terraform.tfvars_template terraform.tfvars
         - echo "Feeding main.tf with variables."
         - sed -i -e "s/ACCOUNTNUMBER/${account_number}/g" main.tf
+        - sed -i -e "s/ARTIFACTBUCKETNAME/${artifact_bucket}/g" main.tf
         - terraform init
         - terraform validate
         - ./execute.sh
