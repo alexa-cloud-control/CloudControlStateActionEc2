@@ -88,9 +88,8 @@ resource "aws_cloudwatch_log_group" "AlexaCloudControlEc2StateActionLogGroup" {
   }
 }
 
-variable "role_convert" {
-  type = "string"
-  default = "${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}"
+locals {
+  role_convert = "${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}"
 }
 
 resource "aws_cloudformation_stack" "AlexaCloudControlEc2StateAction" {
