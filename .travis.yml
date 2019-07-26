@@ -57,5 +57,5 @@ jobs:
       language: python
       script:
         - zip cloud_control_state_action_ec2.zip py/cloud_control_state_action_ec2.py
-        - aws s3 cp cloud_control_state_action_ec2.zip s3://${artifact_bucket}/${TRAVIS_REPO_SLUG}/${TRAVIS_COMMIT}-cloud_control_state_action_ec2.zip
+        - aws s3 cp cloud_control_state_action_ec2.zip s3://${artifact_bucket}/cloud_control_state_action_ec2.zip
         
