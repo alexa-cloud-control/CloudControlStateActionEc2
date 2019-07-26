@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# Set variable for non interactive run
+TF_INPUT=false
+
 echo "Execute plan to find out if there are changes"
 terraform plan -detailed-exitcode
 tfstatus=$?

@@ -88,22 +88,54 @@ resource "aws_cloudwatch_log_group" "AlexaCloudControlEc2StateActionLogGroup" {
   }
 }
 
-resource "aws_lambda_function" "AlexaCloudControlEc2StateAction" {
-  function_name    = "AlexaCloudControlEc2StateAction"
-  role             = "${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}"
-  # Copy dummy file. Cannot create function without code
-  filename         = "AlexaCloudControlEc2StateAction.zip"
-  source_code_hash = "${filebase64sha256("AlexaCloudControlEc2StateAction.zip")}"
-  handler          = "AlexaCloudControlEc2StateAction.cloud_control_state_action_ec2"
-  runtime          = "python3.6"
-  memory_size      = 128
-  timeout          = 3
+resource "aws_cloudformation_stack" "AlexaCloudControlEc2StateAction" {
+  name = "AlexaCloudControlEc2StateAction"
 
-  tags = {
-    Project = "Alexa Cloud Control"
-    Name    = "AlexaCloudControlEc2StateAction"
-    Env     = "${var.environment}"
-    Purpose = "Lambda function"
+  template_body = <<EOF
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Travis triggered template for Lambda create",
+
+  "Resources": {
+    "Type": "AWS::Lambda::Function",
+    "Properties": {
+      "Description": "AlexaCloudControlEc2StateAction",
+      "Environment": "${var.environment}",
+      "Function_name": "cloud_control_state_action_ec2",
+      "Handler": "cloud_control_state_action_ec2.cloud_control_state_action_ec2",
+      "MemorySize": 128,
+      "Runtime": "python3.6",
+      "Role": "${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}",
+      "Timeout": 3,
+      "Tags": 
+        - 
+          Key: "Project"
+          Value: "Alexa Cloud Control"
+        -
+          Key: "Name"
+          Value: "AlexaCloudControlEc2StateAction"
+    }
   }
-
 }
+EOF
+}
+
+# resource "aws_lambda_function" "AlexaCloudControlEc2StateAction" {
+#   function_name    = "AlexaCloudControlEc2StateAction"
+#   role             = "${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}"
+#   # Copy dummy file. Cannot create function without code
+#   filename         = "AlexaCloudControlEc2StateAction.zip"
+#   source_code_hash = "${filebase64sha256("AlexaCloudControlEc2StateAction.zip")}"
+#   handler          = "AlexaCloudControlEc2StateAction.cloud_control_state_action_ec2"
+#   runtime          = "python3.6"
+#   memory_size      = 128
+#   timeout          = 3
+
+#   tags = {
+#     Project = "Alexa Cloud Control"
+#     Name    = "AlexaCloudControlEc2StateAction"
+#     Env     = "${var.environment}"
+#     Purpose = "Lambda function"
+#   }
+
+#}
