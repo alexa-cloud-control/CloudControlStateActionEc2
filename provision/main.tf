@@ -94,7 +94,7 @@ resource "aws_cloudformation_stack" "AlexaCloudControlEc2StateAction" {
   template_body = <<EOF
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Travis triggered template for Lambda create",
+  "Description": "Travis triggered template for Lambda creation process",
   "Resources": { 
     "Type": "AWS::Lambda::Function",
     "Properties": {
