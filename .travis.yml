@@ -3,10 +3,9 @@ dist: trusty
 language: bash
 
 stages:
+  - name: Terraform run
   - name: Python test
   - name: Copy artifact
-    if: branch = master
-  - name: Terraform run
     if: branch = master
 services:
   - docker
@@ -25,21 +24,6 @@ install:
 
 jobs:
   include:
-
-    - stage: Python test
-      script:
-        - echo "Check for commit ${TRAVIS_COMMIT} and tag ${TRAVIS_TAG} from branch ${TRAVIS_BRANCH}."
-        - echo "This is build number ${TRAVIS_BUILD_NUMBER}, for ${TRAVIS_REPO_SLUG}."
-        - mkdir /tmp/config-custom
-        - docker pull almerhor/pylint:default
-        - docker run --rm -v $(pwd):/pylint -v $(pwd)/test:/tmp/config-custom almerhor/pylint:default py/cloud_control_state_action_ec2.py requirements-custom.txt
-    
-    - stage: Copy artifact
-      language: python
-      script:
-        - zip cloud_control_state_action_ec2.zip py/cloud_control_state_action_ec2.py
-        - aws s3 cp cloud_control_state_action_ec2.zip s3://${artifact_bucket}/${TRAVIS_REPO_SLUG}/${TRAVIS_COMMIT}-cloud_control_state_action_ec2.zip
-
     - stage: Terraform run
       script:
         - cd provision
@@ -57,11 +41,21 @@ jobs:
         - mv terraform.tfvars_template terraform.tfvars
         - echo "Feeding main.tf with variables."
         - sed -i -e "s/ACCOUNTNUMBER/${account_number}/g" main.tf
-        - sed -i -e "s/ARTIFACTBUCKETNAME/${artifact_bucket}/g" main.tf
-        - sed -i -e 's/TRAVIS_REPO_SLUG/${TRAVIS_REPO_SLUG}/g' main.tf
-        - sed -i -e "s/TRAVIS_COMMIT/${TRAVIS_COMMIT}/g" main.tf
         - terraform init
         - terraform validate
         - ./execute.sh
 
+    - stage: Python test
+      script:
+        - echo "Check for commit ${TRAVIS_COMMIT} and tag ${TRAVIS_TAG} from branch ${TRAVIS_BRANCH}."
+        - echo "This is build number ${TRAVIS_BUILD_NUMBER}, for ${TRAVIS_REPO_SLUG}."
+        - mkdir /tmp/config-custom
+        - docker pull almerhor/pylint:default
+        - docker run --rm -v $(pwd):/pylint -v $(pwd)/test:/tmp/config-custom almerhor/pylint:default py/cloud_control_state_action_ec2.py requirements-custom.txt
+    
+    - stage: Copy artifact
+      language: python
+      script:
+        - zip cloud_control_state_action_ec2.zip py/cloud_control_state_action_ec2.py
+        - aws s3 cp cloud_control_state_action_ec2.zip s3://${artifact_bucket}/${TRAVIS_REPO_SLUG}/${TRAVIS_COMMIT}-cloud_control_state_action_ec2.zip
         
