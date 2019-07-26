@@ -88,6 +88,11 @@ resource "aws_cloudwatch_log_group" "AlexaCloudControlEc2StateActionLogGroup" {
   }
 }
 
+variable "role_convert" {
+  type = "string"
+  default = "${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}"
+}
+
 resource "aws_cloudformation_stack" "AlexaCloudControlEc2StateAction" {
   name = "AlexaCloudControlEc2StateAction"
 
@@ -104,7 +109,7 @@ resource "aws_cloudformation_stack" "AlexaCloudControlEc2StateAction" {
       "Handler": "cloud_control_state_action_ec2.cloud_control_state_action_ec2",
       "MemorySize": 128,
       "Runtime": "python3.6",
-      "Role": &{aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}",
+      "Role": ${var.role_convert}",
       "Timeout": 3,
       "Tags": [ 
         {
