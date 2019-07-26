@@ -108,7 +108,7 @@ resource "aws_cloudformation_stack" "AlexaCloudControlEc2StateAction" {
       "Handler": "cloud_control_state_action_ec2.cloud_control_state_action_ec2",
       "MemorySize": 128,
       "Runtime": "python3.6",
-      "Role": ${var.role_convert}",
+      "Role": ${local.role_convert}",
       "Timeout": 3,
       "Tags": [ 
         {
