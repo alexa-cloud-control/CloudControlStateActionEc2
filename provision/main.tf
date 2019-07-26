@@ -94,17 +94,16 @@ resource "aws_cloudformation_stack" "AlexaCloudControlEc2StateAction" {
   template_body = <<EOF
 AWSTemplateFormatVersion: 2010-09-09
 Description: Travis triggered template for Lambda create
-
 Resources: 
   Type: AWS::Lambda::Function
   Properties:
     Description: AlexaCloudControlEc2StateAction
-    Environment: ${var.environment}
+    Environment: $${var.environment}
     Function_name: cloud_control_state_action_ec2
     Handler: cloud_control_state_action_ec2.cloud_control_state_action_ec2
     MemorySize: 128
     Runtime: python3.6
-    Role: ${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}
+    Role: $${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}
     Timeout: 3
     Tags: 
       - 
