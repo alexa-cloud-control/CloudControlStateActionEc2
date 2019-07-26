@@ -44,6 +44,7 @@ jobs:
         - sed -i -e "s/ACCOUNTNUMBER/${account_number}/g" main.tf
         - terraform init
         - terraform validate
+        - cat main.tf
         - ./execute.sh
 
     - stage: Python test
