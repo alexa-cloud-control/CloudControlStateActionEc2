@@ -4,7 +4,7 @@ language: bash
 
 stages:
   - name: Terraform run
-    if: commit_message =~ "^.*[t|T]erraform.*$"
+    if: commit_message =~ ^.*[t|T]erraform.*$
   - name: Python test
   - name: Copy artifact
     if: branch = master && type != cron
