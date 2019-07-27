@@ -85,5 +85,5 @@ jobs:
           function_tags:
             - Project = "Alexa Cloud Control"
             - Name = "AlexaCloudControlEc2StateAction"
-            - Env = "${var.environment}"
+            #- Env = "${var.environment}"
             - Purpose = "Lambda function"
