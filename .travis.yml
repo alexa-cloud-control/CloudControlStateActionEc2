@@ -69,7 +69,7 @@ jobs:
         - pwd && ls -l
         - mv cloud_control_state_action_ec2.zip tos3/
         - pwd && ls -l
-        - cd $HOME
+        - cd ..
         - pwd && ls -l
         - provider: s3
           on:
