@@ -67,7 +67,7 @@ jobs:
           # on:
           #   branch = master
           bucket: "${artifact_bucket}"
-          local_dir: ${pwd}/py
+          local_dir: "${pwd}/py"
           skip_cleanup: true
 
         - provider: lambda
