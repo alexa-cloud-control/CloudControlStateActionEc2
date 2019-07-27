@@ -91,9 +91,7 @@ resource "aws_cloudwatch_log_group" "AlexaCloudControlEc2StateActionLogGroup" {
 resource "aws_lambda_function" "AlexaCloudControlEc2StateAction" {
   function_name    = "cloud_control_state_action_ec2"
   role             = "${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}"
-  # Copy dummy file. Cannot create function without code
-  # filename         = "AlexaCloudControlEc2StateAction.zip"
-  # source_code_hash = "${filebase64sha256("AlexaCloudControlEc2StateAction.zip")}"
+  description      = " Alexa EC2 - change state of EC2"
   s3_bucket        = "${var.artifacts_bucket_name}"
   s3_key           = "cloud_control_state_action_ec2.zip"
   handler          = "cloud_control_state_action_ec2.cloud_control_state_action_ec2"
