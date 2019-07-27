@@ -3,11 +3,12 @@ dist: trusty
 language: bash
 
 stages:
-  - name: Python test
-  - name: Copy artifact
-    if: branch = master && type != cron
   - name: Terraform run
-    if: commit_message =~ ^.*[t|T]erraform.*$
+  - name: Python test
+  - name: Prepare artifact
+    if: branch = master && type != cron
+  - name: Deploy code
+    if: branch = master && type != cron  
 services:
   - docker
 
@@ -31,12 +32,12 @@ jobs:
         - docker pull almerhor/pylint:default
         - docker run --rm -v $(pwd):/pylint -v $(pwd)/test:/tmp/config-custom almerhor/pylint:default py/cloud_control_state_action_ec2.py requirements-custom.txt
     
-    - stage: Copy artifact
-      language: python
-      script:
-        - cd py
-        - zip cloud_control_state_action_ec2.zip cloud_control_state_action_ec2.py
-        - aws s3 cp cloud_control_state_action_ec2.zip s3://${artifact_bucket}/cloud_control_state_action_ec2.zip
+    # - stage: Copy artifact
+    #   language: python
+    #   script:
+    #     - cd py
+    #     - zip cloud_control_state_action_ec2.zip cloud_control_state_action_ec2.py
+    #     - aws s3 cp cloud_control_state_action_ec2.zip s3://${artifact_bucket}/cloud_control_state_action_ec2.zip
 
     - stage: Terraform run
       env:
@@ -55,9 +56,35 @@ jobs:
         - sed -i -e "s/ARTIFACTBUCKETNAME/${artifact_bucket}/g" terraform.tfvars_template
         - sed -i -e "s/ENVIRONMENT/${terraform_environment}/g" terraform.tfvars_template
         - mv terraform.tfvars_template terraform.tfvars
-        - echo "Feeding main.tf with variables."
-        - sed -i -e "s/ACCOUNTNUMBER/${account_number}/g" main.tf
         - terraform init
         - terraform validate
         - ./execute.sh
-        
+
+    - stage: Prepare artifact
+        script:
+          - cd py
+          - zip cloud_control_state_action_ec2.zip cloud_control_state_action_ec2.py
+          - mkdir tos3
+          - mv control_state_action_ec2.zip tos3/
+          - provider: s3
+            on:
+              branch = master
+            bucket: ${artifact_bucket}
+            local_dir: py/tos3/
+
+    - stage: Deploy code
+        deploy:
+          provider: lambda
+          function_name: "cloud_control_state_action_ec2"
+          region: "${terraform_region}"
+          role: "arn:aws:iam:${account_number}:role/LambdaAlexaCloudControlEc2StateActionIamRole"
+          runtime: "python3.6"
+          handler_name: "cloud_control_state_action_ec2.cloud_control_state_action_ec2"
+          Description: "Alexa EC2 - change state of EC2"
+          memory_size: 128
+          timeout: 5
+          function_tags:
+            - Project = "Alexa Cloud Control"
+            - Name = "AlexaCloudControlEc2StateAction"
+            - Env = "${var.environment}"
+            - Purpose = "Lambda function"

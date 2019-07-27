@@ -1,3 +1,7 @@
+data "aws_caller_identity" "current" {}
+
+data "aws_region" "current" {}
+
 resource "aws_iam_role" "LambdaAlexaCloudControlEc2StateActionIamRole" {
   name        = "LambdaAlexaCloudControlEc2StateActionIamRole"
   path        = "/"
@@ -45,7 +49,7 @@ resource "aws_iam_policy" "LambdaAlexaCloudControlEc2StateActionIamPolicy" {
         {
             "Effect": "Allow",
             "Action": "logs:CreateLogGroup",
-            "Resource": "arn:aws:logs:eu-west-1:ACCOUNTNUMBER:*"
+            "Resource": "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"
         },
         {
             "Effect": "Allow",
@@ -54,7 +58,7 @@ resource "aws_iam_policy" "LambdaAlexaCloudControlEc2StateActionIamPolicy" {
                 "logs:PutLogEvents"
             ],
             "Resource": [
-                "arn:aws:logs:eu-west-1:ACCOUNTNUMBER:log-group:/aws/lambda/*"
+                "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/*"
             ]
         },
         {
@@ -88,22 +92,22 @@ resource "aws_cloudwatch_log_group" "AlexaCloudControlEc2StateActionLogGroup" {
   }
 }
 
-resource "aws_lambda_function" "AlexaCloudControlEc2StateAction" {
-  function_name    = "cloud_control_state_action_ec2"
-  role             = "${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}"
-  description      = " Alexa EC2 - change state of EC2"
-  s3_bucket        = "${var.artifacts_bucket_name}"
-  s3_key           = "cloud_control_state_action_ec2.zip"
-  handler          = "cloud_control_state_action_ec2.cloud_control_state_action_ec2"
-  runtime          = "python3.6"
-  memory_size      = 128
-  timeout          = 3
+# resource "aws_lambda_function" "AlexaCloudControlEc2StateAction" {
+#   function_name    = "cloud_control_state_action_ec2"
+#   role             = "${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}"
+#   description      = " Alexa EC2 - change state of EC2"
+#   s3_bucket        = "${var.artifacts_bucket_name}"
+#   s3_key           = "cloud_control_state_action_ec2.zip"
+#   handler          = "cloud_control_state_action_ec2.cloud_control_state_action_ec2"
+#   runtime          = "python3.6"
+#   memory_size      = 128
+#   timeout          = 3
 
-  tags = {
-    Project = "Alexa Cloud Control"
-    Name    = "AlexaCloudControlEc2StateAction"
-    Env     = "${var.environment}"
-    Purpose = "Lambda function"
-  }
+#   tags = {
+#     Project = "Alexa Cloud Control"
+#     Name    = "AlexaCloudControlEc2StateAction"
+#     Env     = "${var.environment}"
+#     Purpose = "Lambda function"
+#   }
 
-}
+# }
