@@ -69,7 +69,7 @@ jobs:
           bucket: "${artifact_bucket}"
           local_dir: py
           skip_cleanup: true
-        - cd py
+
         - provider: lambda
           function_name: "cloud_control_state_action_ec2"
           region: "${terraform_region}"
