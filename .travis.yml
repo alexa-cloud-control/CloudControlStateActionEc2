@@ -78,7 +78,7 @@ jobs:
         - provider: lambda
           function_name: "cloud_control_state_action_ec2"
           region: "${terraform_region}"
-          role: "arn:aws:iam:${account_number}:role/LambdaAlexaCloudControlEc2StateActionIamRole"
+          role: "arn:aws:iam::${account_number}:role/LambdaAlexaCloudControlEc2StateActionIamRole"
           runtime: "python3.6"
           handler_name: "cloud_control_state_action_ec2.cloud_control_state_action_ec2"
           description: "Alexa EC2 - change state of EC2"
