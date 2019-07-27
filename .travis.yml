@@ -71,11 +71,13 @@ jobs:
         - pwd && ls -l
         - cd ..
         - pwd && ls -l
+        - ls -l py/tos3
         - provider: s3
           on:
             branch = master
           bucket: ${artifact_bucket}
           local_dir: py/tos3/
+          skip_cleanup: true
 
     - stage: Deploy code
       deploy:
