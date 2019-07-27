@@ -67,7 +67,7 @@ jobs:
           # on:
           #   branch = master
           bucket: "${artifact_bucket}"
-          local_dir: "${pwd}/py"
+          local_dir: py"
           skip_cleanup: true
 
         - provider: lambda
@@ -75,7 +75,8 @@ jobs:
           region: "${terraform_region}"
           role: "arn:aws:iam::${account_number}:role/LambdaAlexaCloudControlEc2StateActionIamRole"
           runtime: "python3.6"
-          handler_name: "cloud_control_state_action_ec2.cloud_control_state_action_ec2"
+          module_name" "cloud_control_state_action_ec2""
+          handler_name: "cloud_control_state_action_ec2"
           description: "Alexa EC2 - change state of EC2"
           memory_size: 128
           timeout: 5
