@@ -65,7 +65,7 @@ jobs:
         - cd py
         - zip cloud_control_state_action_ec2.zip cloud_control_state_action_ec2.py
         - mkdir tos3
-        - mv control_state_action_ec2.zip tos3/
+        - mv cloud_control_state_action_ec2.zip tos3/
         - provider: s3
           on:
             branch = master
