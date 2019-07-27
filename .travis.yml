@@ -81,7 +81,7 @@ jobs:
           role: "arn:aws:iam:${account_number}:role/LambdaAlexaCloudControlEc2StateActionIamRole"
           runtime: "python3.6"
           handler_name: "cloud_control_state_action_ec2.cloud_control_state_action_ec2"
-          Description: "Alexa EC2 - change state of EC2"
+          description: "Alexa EC2 - change state of EC2"
           memory_size: 128
           timeout: 5
           function_tags:
