@@ -61,18 +61,18 @@ jobs:
         - ./execute.sh
 
     - stage: Deploy code
-      script: 
-        - cd py
-        - zip cloud_control_state_action_ec2.zip cloud_control_state_action_ec2.py
-        - mkdir upload
-        - mv cloud_control_state_action_ec2.zip upload/cloud_control_state_action_ec2.zip
-        - cd ../..
+      script: skip
+        # - cd py
+        # - zip cloud_control_state_action_ec2.zip cloud_control_state_action_ec2.py
+        # - mkdir upload
+        # - mv cloud_control_state_action_ec2.zip upload/cloud_control_state_action_ec2.zip
+        # - cd ../..
       deploy:
         - provider: s3
           # on:
           #   branch = master
           bucket: "${artifact_bucket}"
-          local_dir: py/upload
+          local_dir: py
           skip_cleanup: true
 
         - provider: lambda
