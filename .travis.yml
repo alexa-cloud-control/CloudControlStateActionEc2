@@ -75,8 +75,8 @@ jobs:
         - provider: s3
           on:
             branch = master
-          bucket: ${artifact_bucket}
-          local_dir: py/tos3/
+          bucket: "${artifact_bucket}"
+          local_dir: py/tos3
           skip_cleanup: true
 
     - stage: Deploy code
