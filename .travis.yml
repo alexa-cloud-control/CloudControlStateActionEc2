@@ -64,9 +64,13 @@ jobs:
       script:
         - cd py
         - zip cloud_control_state_action_ec2.zip cloud_control_state_action_ec2.py
+        - pwd && ls -l
         - mkdir tos3
+        - pwd && ls -l
         - mv cloud_control_state_action_ec2.zip tos3/
+        - pwd && ls -l
         - cd $HOME
+        - pwd && ls -l
         - provider: s3
           on:
             branch = master
