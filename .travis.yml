@@ -60,26 +60,30 @@ jobs:
         - terraform validate
         - ./execute.sh
 
-    # - stage: Deploy code
-deploy:
-  - provider: s3
-    on:
-      branch = master
-    bucket: "${artifact_bucket}"
-    local_dir: py
-    skip_cleanup: true
+    - stage: Deploy code
+        script: 
+          - cd py
+          - zip cloud_control_state_action_ec2.zip cloud_control_state_action_ec2.py
+          - cd ..
+        deploy:
+          - provider: s3
+            # on:
+            #   branch = master
+            bucket: "${artifact_bucket}"
+            local_dir: py
+            skip_cleanup: true
 
-  - provider: lambda
-    function_name: "cloud_control_state_action_ec2"
-    region: "${terraform_region}"
-    role: "arn:aws:iam:${account_number}:role/LambdaAlexaCloudControlEc2StateActionIamRole"
-    runtime: "python3.6"
-    handler_name: "cloud_control_state_action_ec2.cloud_control_state_action_ec2"
-    Description: "Alexa EC2 - change state of EC2"
-    memory_size: 128
-    timeout: 5
-    function_tags:
-      - Project = "Alexa Cloud Control"
-      - Name = "AlexaCloudControlEc2StateAction"
-      - Env = "${var.environment}"
-      - Purpose = "Lambda function"
+          - provider: lambda
+            function_name: "cloud_control_state_action_ec2"
+            region: "${terraform_region}"
+            role: "arn:aws:iam:${account_number}:role/LambdaAlexaCloudControlEc2StateActionIamRole"
+            runtime: "python3.6"
+            handler_name: "cloud_control_state_action_ec2.cloud_control_state_action_ec2"
+            Description: "Alexa EC2 - change state of EC2"
+            memory_size: 128
+            timeout: 5
+            function_tags:
+              - Project = "Alexa Cloud Control"
+              - Name = "AlexaCloudControlEc2StateAction"
+              - Env = "${var.environment}"
+              - Purpose = "Lambda function"
