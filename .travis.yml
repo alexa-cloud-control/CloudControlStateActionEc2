@@ -64,7 +64,9 @@ jobs:
       script: 
         - cd py
         - zip cloud_control_state_action_ec2.zip cloud_control_state_action_ec2.py
-        - cd ..
+        - mkdir upload
+        - mv cloud_control_state_action_ec2.zip upload/cloud_control_state_action_ec2.zip
+        - cd ../..
       deploy:
         - provider: s3
           # on:
