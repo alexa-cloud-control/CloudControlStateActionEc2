@@ -32,7 +32,7 @@ jobs:
     
     - stage: Perform tests
       dist: trusty
-      sudo: required
+      # sudo: required
       addons:
         sonarcloud:
           organization: "alexa-cloud-control"
