@@ -36,8 +36,8 @@ jobs:
       addons:
         sonarcloud:
           organization: "alexa-cloud-control"
-          token:
-            secure: ${SONAR_TOKEN}
+          # token: ${SONAR_TOKEN}
+            # secure: ${SONAR_TOKEN}
       script:
         - sonar-scanner
 
