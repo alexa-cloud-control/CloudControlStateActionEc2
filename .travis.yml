@@ -5,8 +5,6 @@ language: bash
 stages:
   - name: Terraform run
   - name: Python test
-  # - name: Prepare artifact
-  #   if: branch = master && type != cron
   - name: Deploy code
     if: branch = master && type != cron  
 services:
@@ -64,13 +62,15 @@ jobs:
       script: skip
       deploy:
         - provider: s3
-          # on:
-          #   branch = master
+          on:
+            branch = master
           bucket: "${artifact_bucket}"
           local_dir: py
           skip_cleanup: true
 
         - provider: lambda
+          on:
+            branch = master
           function_name: "cloud_control_state_action_ec2"
           region: "${terraform_region}"
           role: "arn:aws:iam::${account_number}:role/LambdaAlexaCloudControlEc2StateActionIamRole"
