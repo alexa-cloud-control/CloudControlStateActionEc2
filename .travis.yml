@@ -32,6 +32,7 @@ jobs:
     
     - stage: Perform tests
       dist: trusty
+      language: java
       sudo: required
       addons:
         sonarcloud:
@@ -44,7 +45,8 @@ jobs:
 
       script:
         - sudo chmod +x $(which sonar-scanner)
-        - sudo sonar-scanner
+        - export PATH=$(dirname $(which sonar-cube)):$PATH
+        - sonar-scanner
 
     # - stage: Copy artifact
     #   language: python
