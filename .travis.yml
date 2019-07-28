@@ -45,7 +45,7 @@ jobs:
 
       script:
         - sudo chmod +x $(which sonar-scanner)
-        - export PATH=$(dirname $(which sonar-cube)):$PATH
+        - export PATH=$(dirname $(which sonar-scanner)):$PATH
         - sonar-scanner
 
     # - stage: Copy artifact
