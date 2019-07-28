@@ -43,6 +43,7 @@ jobs:
         - oraclejdk8
 
       script:
+        - sudo chmod +x $(which sonar-scanner)
         - sonar-scanner
 
     # - stage: Copy artifact
