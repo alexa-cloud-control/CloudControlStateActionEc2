@@ -99,4 +99,9 @@ jobs:
           memory_size: 128
           timeout: 5
           zip: py/cloud_control_state_action_ec2.py
+          function_tags: 
+            Project = "Alexa Cloud Control"
+            Name    = "AlexaCloudControlEc2StateAction"
+            Env     = "${var.environment}"
+            Purpose = "Lambda function"
 
