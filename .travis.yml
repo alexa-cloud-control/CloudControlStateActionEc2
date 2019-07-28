@@ -44,7 +44,7 @@ jobs:
 
       script:
         - sudo chmod +x $(which sonar-scanner)
-        - sonar-scanner
+        - sudo sonar-scanner
 
     # - stage: Copy artifact
     #   language: python
