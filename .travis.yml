@@ -32,13 +32,16 @@ jobs:
     
     - stage: Perform tests
       dist: trusty
-      sudo: required
+      # sudo: required
       addons:
         sonarcloud:
           organization: "alexa-cloud-control"
           token: 
             secure: "sG7FEK9tBqSJBSe9HhUWRVNqf2XIFz91W8ATTvkVDNTEuPiE7yNJjUtjrUawFG56shoyG0qbTIuBtDAqwi0du+YgsHCEdFYxMbmbTX+STK+EOagUMrqQG/Q3yzDPUNRCJ6L1txTlD+aMAa6VeQHBkuWmhCC1zN9kISt13+BJF7HHbF2S5o8bUPrseu78371pxcB9oD3ufIAGsUYXseZk3x/y3TSKgKzBoW00cqmovAZJhYacSrx01UhhvLFtuHFJrhTDqxZVoaodEXefFlyCH/4hAvspJsbZ3/JIPdRFr7cujmF06IoeDDDaJ4pdg1ST1SIXoJLzmIT7am5y7f2B6f8/osFol02ZXPmLveqEJnMAeu+2I724g2QZZenSMocyxprVX9L9u8VFahAPgmbN0ZbHIH8OtyFZd0DAlZ6+z42bq3SHE1hTKt185wp/+u85U2u2OxGaw4hmT57Q6GrYPWsMkbbYkfT/6gkFwYJ0/42vz6eWfrI8DbYBG+z6123azCBA/AVO2dtodbj3fwwTKLze3ZeZV+sRpFt8n3lVz+IYO9t8Z6nDcoVr7REMhj7b18FYrAPCVblKnCPqhNyTDt9I/f/hGxcmhGMMDenOBzovSeZC01gxyoCKd+M0TiVVUrhzW0ngKyH4ABsBsXX0Ggz1ZTKnwJpU9a2c4Ex7kuM="
-            
+      
+      jdk:
+        - oraclejdk8
+
       script:
         - sonar-scanner
 
