@@ -48,13 +48,6 @@ jobs:
         - export PATH=$(dirname $(which sonar-scanner)):$PATH
         - sonar-scanner
 
-    # - stage: Copy artifact
-    #   language: python
-    #   script:
-    #     - cd py
-    #     - zip cloud_control_state_action_ec2.zip cloud_control_state_action_ec2.py
-    #     - aws s3 cp cloud_control_state_action_ec2.zip s3://${artifact_bucket}/cloud_control_state_action_ec2.zip
-
     - stage: Terraform run
       env:
         - TF_INPUT=false # No interraction
@@ -80,15 +73,11 @@ jobs:
       script: skip
       deploy:
         - provider: s3
-          on:
-            branch = master
           bucket: "${artifact_bucket}"
           local_dir: py
           skip_cleanup: true
 
         - provider: lambda
-          on:
-            branch = master
           function_name: "cloud_control_state_action_ec2"
           region: "${terraform_region}"
           role: "arn:aws:iam::${account_number}:role/LambdaAlexaCloudControlEc2StateActionIamRole"
@@ -99,9 +88,9 @@ jobs:
           memory_size: 128
           timeout: 5
           zip: py/cloud_control_state_action_ec2.py
-          function_tags: 
-            Project = "Alexa Cloud Control"
-            Name    = "AlexaCloudControlEc2StateAction"
-            Env     = "${var.environment}"
-            Purpose = "Lambda function"
+          # function_tags: 
+          #   Project = "AlexaCloudControl"
+          #   Name    = "AlexaCloudControlEc2StateAction"
+          #   Env     = "${var.environment}"
+          #   Purpose = "Lambdafunction"
 
