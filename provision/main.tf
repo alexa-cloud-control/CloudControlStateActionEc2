@@ -81,7 +81,7 @@ resource "aws_iam_role_policy_attachment" "IamRolePolicyAttachement" {
 }
 
 resource "aws_cloudwatch_log_group" "AlexaCloudControlEc2StateActionLogGroup" {
-  name              = "/aws/lambda/AlexaCloudControlEc2StateAction"
+  name              = "/aws/lambda/cloud_control_state_action_ec2"
   retention_in_days = 3
 
   tags = {
@@ -91,23 +91,3 @@ resource "aws_cloudwatch_log_group" "AlexaCloudControlEc2StateActionLogGroup" {
     Purpose = "Cloudwatch logs group"
   }
 }
-
-# resource "aws_lambda_function" "AlexaCloudControlEc2StateAction" {
-#   function_name    = "cloud_control_state_action_ec2"
-#   role             = "${aws_iam_role.LambdaAlexaCloudControlEc2StateActionIamRole.arn}"
-#   description      = " Alexa EC2 - change state of EC2"
-#   s3_bucket        = "${var.artifacts_bucket_name}"
-#   s3_key           = "cloud_control_state_action_ec2.zip"
-#   handler          = "cloud_control_state_action_ec2.cloud_control_state_action_ec2"
-#   runtime          = "python3.6"
-#   memory_size      = 128
-#   timeout          = 3
-
-#   tags = {
-#     Project = "Alexa Cloud Control"
-#     Name    = "AlexaCloudControlEc2StateAction"
-#     Env     = "${var.environment}"
-#     Purpose = "Lambda function"
-#   }
-
-# }
