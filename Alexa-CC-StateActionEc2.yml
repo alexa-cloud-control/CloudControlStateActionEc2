@@ -95,10 +95,6 @@ Resources:
     Type: AWS::Lambda::Permission
     Properties:
       Action: 'lambda:InvokeFunction'
-      FunctionName: !GetAtt 
-        - Fn::ImportValue: CloudControlMainFunction
-        - Arn
+      FunctionName: !ImportValue CloudControlMainFunction
       Principal: 'lambda.amazonaws.com'
-      SourceArn: !GetAtt
-        - Fn::ImpotValue: CloudControlMainFunction
-        - Arn
+      SourceArn: !ImpotValue CloudControlMainFunction
