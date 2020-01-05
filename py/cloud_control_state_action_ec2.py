@@ -56,7 +56,6 @@ def cloud_control_state_action_ec2(event, context):
             event["body"]["InstanceName"],
             event["body"]["InstanceState"]
         )
-
     )
 
     return {"msg": msg}

@@ -63,6 +63,10 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                 Resource: arn:aws:logs:eu-west-1:ACCOUNTNUMBER:log-group:/aws/lambda/*
+              -
+                Effect: Allow
+                Action: 'ec2:*'
+                Resource: '*'
   
   StateActionEc2FunctionLambda:
     Type: AWS::Lambda::Function
