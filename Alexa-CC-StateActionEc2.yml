@@ -96,9 +96,9 @@ Resources:
     Properties:
       Action: 'lambda:InvokeFunction'
       FunctionName: !GetAtt 
-        - StateActionEc2FunctionLambda
+        - Fn::ImportValue: CloudControlMainFunction
         - Arn
       Principal: 'lambda.amazonaws.com'
       SourceArn: !GetAtt
-        - StateActionEc2FunctionLambda
+        - Fn::ImpotValue: CloudControlMainFunction
         - Arn
