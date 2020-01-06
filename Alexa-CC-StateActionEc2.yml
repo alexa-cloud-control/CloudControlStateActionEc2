@@ -95,14 +95,12 @@ Resources:
           Key: Purpose
           Value: Alexa CloudControl State Action EC2 Function
 
-  # FunctionTrigger:
-  #   Type: AWS::Lambda::Permission
-  #   Properties:
-  #     Action: 'lambda:InvokeFunction'
-  #     FunctionName: !GetAtt 
-  #       - StateActionEc2FunctionLambda
-  #       - Arn
-  #     Principal: 'lambda.amazonaws.com'
-  #     SourceArn: !GetAtt
-  #       - CloudControlMainFunction
-  #       - Arn
+  FunctionTrigger:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !GetAtt 
+        - StateActionEc2FunctionLambda
+        - Arn
+      Principal: 'lambda.amazonaws.com'
+      SourceArn: !ImportValue Alexa-CC-Main-Function-MainFunctionLambda
